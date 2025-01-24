@@ -1,0 +1,5 @@
+fastapi
+httpx
+bs4
+uvicorn
+fake-useragent
