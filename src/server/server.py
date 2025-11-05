@@ -31,7 +31,11 @@ async def fetchMovies(q:str) -> JSONResponse:
         responseHTML = response.text
         data = []
         soup = bs4.BeautifulSoup(responseHTML, 'html.parser')
-        table = soup.find("table",{"class": "table table-bordered table-hover table-striped torrent-list"}).find_all("tr")[1:]
+        table = soup.find("table",{"class": "table table-bordered table-hover table-striped torrent-list"})
+        if table != None:
+            table = table.find_all("tr")[1:]
+        else:
+            return JSONResponse(content=data)
         for row in table:
             cateString = row.find_all("td")[0].find("a").get("title")
             cateImage = "https://nyaa.si" + row.find_all("td")[0].find("img").get("src")

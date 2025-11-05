@@ -60,7 +60,6 @@ export default class SearchBar extends Component {
                 style={baseStyle}
             />
             {
-                (this.state.data.length > 0) &&
                 <MovieResult data={this.state.data} width='1200px'/>
             }
         </div>
