@@ -21,7 +21,7 @@ export default class SearchBar extends Component {
         data: []
     }
 
-    protected readonly api = '/api?q='
+    protected readonly api = 'https://elin-nyaa-mirror-c9d4ffbeacdxc2bm.eastasia-01.azurewebsites.net/?q='
 
     search = async (query: string) => {
         this.setState({ 

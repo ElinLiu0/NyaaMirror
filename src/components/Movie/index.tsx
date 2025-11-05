@@ -25,15 +25,16 @@ export interface dataProps {
     width: string;
 }
 
-const NYAAMIRROR_SERVER_PORT = 8000
-const NYAAMIRROR_SERVER_DOMAIN = "localhost"
+// const NYAAMIRROR_SERVER_PORT = 8000
+const NYAAMIRROR_SERVER_DOMAIN = "elin-nyaa-mirror-c9d4ffbeacdxc2bm.eastasia-01.azurewebsites.net"
+// const NYAAMIRROR_SERVER_DOMAIN = "localhost:8000"
 
 const columns: TableProps<MovieProps>['columns'] = [
     {
         title: '分类',
         dataIndex: 'cateImage',
         key: 'cateImage',
-        render: (imageURL: string, record: MovieProps) => <Image src={imageURL} width={50} alt={record.cateString}/>,
+        render: (imageURL: string, record: MovieProps) => <Image src={`http://${NYAAMIRROR_SERVER_DOMAIN}/getCateImage?cateImageLink=${imageURL}`} width={50} alt={record.cateString}/>,
         width: '5%'
     },
     {
@@ -47,13 +48,13 @@ const columns: TableProps<MovieProps>['columns'] = [
         title: '种子下载',
         dataIndex: 'torrentLink',
         key: 'torrentLink',
-        render: (link: string,record: MovieProps) => <FontAwesomeIcon icon={faDownload} size='2x' onClick={
+        render: (link: string) => <FontAwesomeIcon icon={faDownload} size='2x' onClick={
             () => {
                 console.log(link)
                 let torrentId: string | string[] = link.split("/")
                 const lastIndex = torrentId.length - 1
                 torrentId = torrentId[lastIndex].split(".")[0]
-                window.open(`http://${NYAAMIRROR_SERVER_DOMAIN}:${NYAAMIRROR_SERVER_PORT}/download?torrent_id=${torrentId}&torrent_name=${record.name}`)
+                window.open(`http://${NYAAMIRROR_SERVER_DOMAIN}/download?torrent_id=${torrentId}`)
             }
         } />,
         width: '5%'
