@@ -7,6 +7,7 @@ from fastapi.responses import (
 import bs4
 import uuid
 from pydantic import BaseModel
+from fastapi.middleware.cors import CORSMiddleware
 
 # async def fetchCateImage(cateImageLink: str) -> str:
 #     async with httpx.AsyncClient() as client:
@@ -15,6 +16,14 @@ from pydantic import BaseModel
 #         return f"data:image/png;base64,{imageData}"
 
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 @app.get("/")
 async def fetchMovies(q:str) -> JSONResponse:
     async with httpx.AsyncClient() as client:
@@ -32,7 +41,7 @@ async def fetchMovies(q:str) -> JSONResponse:
             else:
                 name = name[0].text
             torrentLink = "https://nyaa.si" + row.find_all("td")[2].find_all("a")[0].get("href")
-            magnetLink = "https://nyaa.si" + row.find_all("td")[2].find_all("a")[1].get("href")
+            magnetLink = row.find_all("td")[2].find_all("a")[1].get("href")
             size = row.find_all("td")[3].text
             date = row.find_all("td")[4].text
             seeders = int(row.find_all("td")[5].text)
